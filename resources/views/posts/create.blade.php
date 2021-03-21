@@ -18,7 +18,7 @@
       <select name="user_id" class="form-control" id="post_creator">
           @foreach ($users as $user)
           <option value="{{$user->id}}">{{$user->name}}</option>
-        @endforeach
+          @endforeach
       </select>
     </div>
     <button type="submit" class="btn btn-success">Create Post</button>

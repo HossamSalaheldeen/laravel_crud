@@ -16,14 +16,13 @@ class PostController extends Controller
         //     ['id' => 2, 'title' => 'PHP','description'=>'PHP is awsome framework', 'posted_by' => 'Mohamed', 'email'=>'mohamed@gmail.com' , 'created_at' => '2021-04-15'],
         //     ['id' => 3, 'title' => 'Javascript','description'=>'Javascript is awsome framework', 'posted_by' => 'Ali', 'email'=>'ali@gmail.com' , 'created_at' => '2021-06-01'],
         // ];
-        $this->allPosts = Post::all();
+        //$this->allPosts = Post::all();
+        $this->allPosts = Post::paginate(5);
     }
     public function index()
     {
-        
-        return view('posts.index', [
-            'posts' => $this->allPosts
-        ]);
+        return view('posts.index', ['posts' => $this->allPosts]);
+        //return view('posts.index', compact('posts'));
     }
 
     public function show($postId)
@@ -38,9 +37,8 @@ class PostController extends Controller
 
     public function edit($postId)
     {
-        return view('posts.edit',[
-            'post' => $this->allPosts[$postId - 1]
-        ]);
+        $post = Post::find($postId);
+        return view('posts.edit',['post' => $post , 'users' => User::all()]);
     }
 
     public function create()
