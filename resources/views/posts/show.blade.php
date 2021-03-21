@@ -22,10 +22,10 @@
     </div>
     <div class="card-body">
       <h5 class="card-title" style="display:inline">Name:-</h5>
-      <p class="card-text" style="display:inline">{{ $post->posted_by }}</p>
+      <p class="card-text" style="display:inline">{{$post->user ? $post->user->name : 'user not found'}}</p>
       <br/>
       <h5 class="card-title" style="display:inline">Email:-</h5>
-      <p class="card-text" style="display:inline">{{ $post->email }}</p>
+      <p class="card-text" style="display:inline">{{$post->user ? $post->user->email : 'email not found'}}</p>
       <br/>
        <h5 class="card-title" style="display:inline">Created at:-</h5>
       <p class="card-text" style="display:inline">{{$post->created_at->format('l')}} {{$post->created_at->format('d')}}th of {{$post->created_at->format('F')}} {{$post->created_at->format('Y')}} {{$post->created_at->format('H:i:s A')}}</p>

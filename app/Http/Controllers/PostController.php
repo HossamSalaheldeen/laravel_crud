@@ -33,9 +33,7 @@ class PostController extends Controller
         // $this->allPosts['id'] = $postId;
         //dd($this->allPosts);
         $post = Post::find($postId); //object of Post model
-        return view('posts.show', [
-            'post' => $post
-        ]);
+        return view('posts.show', ['post' => $post , 'users' => User::all()]);
     }
 
     public function edit($postId)
