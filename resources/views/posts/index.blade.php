@@ -21,15 +21,19 @@
     @foreach($posts as $post)
     {{-- @dd($post) --}}
       <tr>
-        <th scope="row">{{ $post['id'] }}</th>
-        <td>{{ $post['title'] }}</td>
-        <td>{{ $post['posted_by'] }}</td>
-        <td>{{ $post['created_at'] }}</td>
+        <th scope="row">{{ $post->id }}</th>
+        <td>{{ $post->title ? $post->title : 'title not found'}}</td>
+        <td>{{$post->user ? $post->user->name : 'user not found'}}</td>
+        <td>{{$post->created_at->format('Y-m-d')}}</td>
         <td>
          
-          <x-button type="info" href="{{ route('posts.show',['post' => $post['id']]) }}">View</x-button>
-          <x-button type="secondary" href="{{ route('posts.edit',['post' => $post['id']]) }}">Edit</x-button>
-          <x-button type="danger" href="#">Delete</x-button>
+          <x-button type="info" href="{{ route('posts.show',['post' => $post->id]) }}">View</x-button>
+          <x-button type="secondary" href="{{ route('posts.edit',['post' => $post->id]) }}">Edit</x-button>
+           <form style="display:inline !important" method="POST"  action="{{route('posts.destroy', ['post' => $post->id])}}">
+            @csrf
+            @method('DELETE')
+            <button style="display:inline !important; margin-top:-20px !important" class="btn btn-danger" type="submit">Delete</button>
+          </form>
         </td>
       </tr>
     @endforeach
