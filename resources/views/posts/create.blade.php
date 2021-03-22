@@ -3,12 +3,25 @@
 @section('title')Create Page @endsection
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <form method="POST" action="{{route('posts.store')}}">
     @csrf
     <div class="form-group">
       <label for="title">Title</label>
       <input type="text" name="title" class="form-control" id="title" aria-describedby="emailHelp">
     </div>
+    {{-- <div class="form-group">
+      <label for="title">Slug</label>
+      <input type="text" name="slug" class="form-control" id="slug" aria-describedby="emailHelp" >
+    </div> --}}
     <div class="form-group">
       <label for="description">Description</label>
       <textarea name="description" class="form-control" id="description"> </textarea>
@@ -23,5 +36,7 @@
     </div>
     <button type="submit" class="btn btn-success">Create Post</button>
   </form>
+
+ 
 
 @endsection

@@ -3,6 +3,15 @@
 @section('title')Edit Page @endsection
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <form method="POST" action="{{route('posts.update',['post' => $post->id])}}">
     @csrf
     @method('PUT')
@@ -17,9 +26,8 @@
     <div class="form-group">
       <label  for="post_creator">Post Creator</label>
       <select name="user_id" class="form-control" id="post_creator">
-          <option>{{ $post->posted_by }}</option>
           @foreach ($users as $user)
-          <option value="{{$user->id}}">{{$user->name}}</option>
+          <option value="{{$user->id}}" @if($user->id == $post->user_id) selected @endif >{{$user->name}}</option>
           @endforeach
       </select>
     </div>
