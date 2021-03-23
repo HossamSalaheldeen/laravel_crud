@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Models\User;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +34,23 @@ Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('github')->user();
+
+    $newUser = User::where('email', '=', $user->email)->first();
+    if(!$newUser) {
+        $newUser = new User();
+        $newUser->name = $user->name;
+        $newUser->email = $user->email;
+        $newUser->save();
+    }
+    Auth::login($newUser);
+
+    return redirect()->route('home');
+});
