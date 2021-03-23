@@ -36,12 +36,54 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/auth/redirect', function () {
+Route::get('/auth/github/redirect', function () {
     return Socialite::driver('github')->redirect();
 });
 
-Route::get('/auth/callback', function () {
+Route::get('/auth/github/callback', function () {
     $user = Socialite::driver('github')->user();
+
+    $newUser = User::where('email', '=', $user->email)->first();
+    if(!$newUser) {
+        $newUser = new User();
+        $newUser->name = $user->name;
+        $newUser->email = $user->email;
+        $newUser->save();
+    }
+    Auth::login($newUser);
+
+    return redirect()->route('home');
+});
+
+
+Route::get('/auth/google/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+
+Route::get('/auth/google/callback', function () {
+    $user = Socialite::driver('google')->user();
+
+    $newUser = User::where('email', '=', $user->email)->first();
+    if(!$newUser) {
+        $newUser = new User();
+        $newUser->name = $user->name;
+        $newUser->email = $user->email;
+        $newUser->save();
+    }
+    Auth::login($newUser);
+
+    return redirect()->route('home');
+});
+
+
+Route::get('/auth/facebook/redirect', function () {
+    return Socialite::driver('facebook')->redirect();
+});
+
+
+Route::get('/auth/facebook/callback', function () {
+    $user = Socialite::driver('facebook')->user();
 
     $newUser = User::where('email', '=', $user->email)->first();
     if(!$newUser) {
