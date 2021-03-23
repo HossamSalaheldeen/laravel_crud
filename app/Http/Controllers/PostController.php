@@ -19,7 +19,8 @@ class PostController extends Controller
         //     ['id' => 3, 'title' => 'Javascript','description'=>'Javascript is awsome framework', 'posted_by' => 'Ali', 'email'=>'ali@gmail.com' , 'created_at' => '2021-06-01'],
         // ];
         //$this->allPosts = Post::all();
-        $this->allPosts = Post::paginate(5);
+        $this->allPosts = Post::with('user')->paginate(5);
+        //$this->allPosts = Post::paginate(5);
     }
     public function index()
     {
